@@ -4,19 +4,22 @@ import com.techyourchance.dagger2course.networking.SingleQuestionResponseSchema
 import com.techyourchance.dagger2course.networking.StackoverflowApi
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import retrofit2.Response
+import retrofit2.Retrofit
 
 class FetchQuestionDetailsUseCaseTest {
 
     private lateinit var fetchQuestionDetailsUseCase: FetchQuestionDetailsUseCase
 
     @MockK
-    private val stackOverflowApi: StackoverflowApi = mockk()
+    private lateinit var stackOverflowApi: StackoverflowApi
+
+    @MockK
+    private lateinit var retrofit: Retrofit
 
     private val testData =
         QuestionWithBody(
@@ -32,7 +35,7 @@ class FetchQuestionDetailsUseCaseTest {
             SingleQuestionResponseSchema(questions = listOf(testData))
         )
 
-        fetchQuestionDetailsUseCase = FetchQuestionDetailsUseCase()
+        fetchQuestionDetailsUseCase = FetchQuestionDetailsUseCase(retrofit = retrofit)
     }
 
     @Test

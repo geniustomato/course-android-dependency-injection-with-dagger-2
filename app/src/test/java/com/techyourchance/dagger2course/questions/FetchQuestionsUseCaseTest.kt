@@ -5,13 +5,17 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import retrofit2.Retrofit
 
 class FetchQuestionsUseCaseTest {
     // TODO Incompatible for testing because we can't mock everything
 
+    private lateinit var fetchQuestionsUseCase: FetchQuestionsUseCase
+
     @MockK
-    private val fetchQuestionsUseCase: FetchQuestionsUseCase = mockk()
+    private lateinit var retrofit: Retrofit
 
     private val testData = listOf(
         Question(title = "Title 1", "id1"),
@@ -19,6 +23,11 @@ class FetchQuestionsUseCaseTest {
         Question(title = "Title 3", "id3"),
         Question(title = "Title 4", "id4"),
     )
+
+    @BeforeEach
+    fun setUp() {
+        fetchQuestionsUseCase = FetchQuestionsUseCase(retrofit = retrofit)
+    }
 
     @Test
     fun `Should fetch questions correctly on success`() {

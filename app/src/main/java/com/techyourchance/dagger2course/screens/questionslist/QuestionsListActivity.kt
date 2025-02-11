@@ -3,6 +3,7 @@ package com.techyourchance.dagger2course.screens.questionslist
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
+import com.techyourchance.dagger2course.MyApplication
 import com.techyourchance.dagger2course.questions.FetchQuestionsUseCase
 import com.techyourchance.dagger2course.questions.FetchQuestionsUseCase.Result
 import com.techyourchance.dagger2course.questions.Question
@@ -19,7 +20,7 @@ class QuestionsListActivity : AppCompatActivity(), QuestionsListViewMvc.Listener
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private var isDataLoaded = false
     private lateinit var viewMvc: QuestionsListViewMvc
-    private val fetchQuestionsUseCase = FetchQuestionsUseCase()
+    private val fetchQuestionsUseCase by lazy { FetchQuestionsUseCase((application as MyApplication).retrofit) }
     private val dialogsNavigator = DialogsNavigator(fragmentManager = supportFragmentManager)
     private val screensNavigator = ScreensNavigator(activity = this)
 
