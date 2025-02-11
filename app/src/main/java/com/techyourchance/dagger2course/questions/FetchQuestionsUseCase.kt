@@ -3,14 +3,11 @@ package com.techyourchance.dagger2course.questions
 import com.techyourchance.dagger2course.networking.StackoverflowApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import retrofit2.Retrofit
 import kotlin.coroutines.cancellation.CancellationException
 
 class FetchQuestionsUseCase(
-    private val retrofit: Retrofit,
+    private val stackoverflowApi: StackoverflowApi,
 ) {
-    private val stackoverflowApi: StackoverflowApi = retrofit.create(StackoverflowApi::class.java)
-
     sealed class Result {
         data class Success(val data: List<Question>) : Result()
         data object Failure : Result()
@@ -23,7 +20,7 @@ class FetchQuestionsUseCase(
                 val response = stackoverflowApi.lastActiveQuestions(20)
                 if (response.isSuccessful && response.body() != null) {
                     return@withContext Result.Success(
-                        data = response.body()?.questions ?: emptyList()
+                        data = response.body()!!.questions
                     )
                 } else {
                     return@withContext Result.Failure

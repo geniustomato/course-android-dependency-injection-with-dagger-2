@@ -20,7 +20,7 @@ class QuestionsListActivity : AppCompatActivity(), QuestionsListViewMvc.Listener
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private var isDataLoaded = false
     private lateinit var viewMvc: QuestionsListViewMvc
-    private val fetchQuestionsUseCase by lazy { FetchQuestionsUseCase((application as MyApplication).retrofit) }
+    private val fetchQuestionsUseCase by lazy { FetchQuestionsUseCase((application as MyApplication).stackoverflowApi) }
     private val dialogsNavigator = DialogsNavigator(fragmentManager = supportFragmentManager)
     private val screensNavigator = ScreensNavigator(activity = this)
 

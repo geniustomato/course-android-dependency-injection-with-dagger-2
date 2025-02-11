@@ -22,7 +22,7 @@ class QuestionDetailsActivity : AppCompatActivity(), QuestionDetailsViewMvc.List
     private lateinit var questionId: String
     private lateinit var viewMvc: QuestionDetailsViewMvc
 
-    private val fetchQuestionDetailsUseCase by lazy { FetchQuestionDetailsUseCase((application as MyApplication).retrofit) }
+    private val fetchQuestionDetailsUseCase by lazy { FetchQuestionDetailsUseCase((application as MyApplication).stackoverflowApi) }
     private val dialogsNavigator = DialogsNavigator(fragmentManager = supportFragmentManager)
     private val screensNavigator = ScreensNavigator(activity = this)
 
