@@ -2,11 +2,10 @@ package com.techyourchance.dagger2course.screens.questionslist
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import androidx.appcompat.app.AppCompatActivity
-import com.techyourchance.dagger2course.MyApplication
 import com.techyourchance.dagger2course.questions.FetchQuestionsUseCase.Result
 import com.techyourchance.dagger2course.questions.Question
 import com.techyourchance.dagger2course.screens.common.ScreensNavigator
+import com.techyourchance.dagger2course.screens.common.activities.BaseActivity
 import com.techyourchance.dagger2course.screens.common.dialogs.DialogsNavigator
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -14,7 +13,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.launch
 
-class QuestionsListActivity : AppCompatActivity(), QuestionsListViewMvc.Listener {
+class QuestionsListActivity : BaseActivity(), QuestionsListViewMvc.Listener {
 
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private var isDataLoaded = false
@@ -24,7 +23,7 @@ class QuestionsListActivity : AppCompatActivity(), QuestionsListViewMvc.Listener
     private val screensNavigator = ScreensNavigator(activity = this)
     private val dialogsNavigator = DialogsNavigator(fragmentManager = supportFragmentManager)
 
-    private val fetchQuestionsUseCase by lazy { (application as MyApplication).fetchQuestionsUseCase }
+    private val fetchQuestionsUseCase by lazy { appCompositionRoot.fetchQuestionsUseCase }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.techyourchance.dagger2course.MyApplication
 import com.techyourchance.dagger2course.questions.FetchQuestionDetailsUseCase
 import com.techyourchance.dagger2course.screens.common.ScreensNavigator
+import com.techyourchance.dagger2course.screens.common.activities.BaseActivity
 import com.techyourchance.dagger2course.screens.common.dialogs.DialogsNavigator
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -15,7 +16,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.launch
 
-class QuestionDetailsActivity : AppCompatActivity(), QuestionDetailsViewMvc.Listener {
+class QuestionDetailsActivity : BaseActivity(), QuestionDetailsViewMvc.Listener {
 
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private lateinit var questionId: String
@@ -24,7 +25,7 @@ class QuestionDetailsActivity : AppCompatActivity(), QuestionDetailsViewMvc.List
     private val dialogsNavigator = DialogsNavigator(fragmentManager = supportFragmentManager)
     private val screensNavigator = ScreensNavigator(activity = this)
 
-    private val fetchQuestionDetailsUseCase by lazy { (application as MyApplication).fetchQuestionDetailsUseCase }
+    private val fetchQuestionDetailsUseCase by lazy { appCompositionRoot.fetchQuestionDetailsUseCase }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
