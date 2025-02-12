@@ -18,13 +18,13 @@ import kotlinx.coroutines.launch
 class QuestionDetailsActivity : AppCompatActivity(), QuestionDetailsViewMvc.Listener {
 
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
-
     private lateinit var questionId: String
     private lateinit var viewMvc: QuestionDetailsViewMvc
 
-    private val fetchQuestionDetailsUseCase by lazy { FetchQuestionDetailsUseCase((application as MyApplication).stackoverflowApi) }
     private val dialogsNavigator = DialogsNavigator(fragmentManager = supportFragmentManager)
     private val screensNavigator = ScreensNavigator(activity = this)
+
+    private val fetchQuestionDetailsUseCase by lazy { (application as MyApplication).fetchQuestionDetailsUseCase }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +49,7 @@ class QuestionDetailsActivity : AppCompatActivity(), QuestionDetailsViewMvc.List
     }
 
     override fun onNavigationUp() {
-        onBackPressed()
+        screensNavigator.navigateBack()
     }
 
     private fun fetchQuestionDetails() {
