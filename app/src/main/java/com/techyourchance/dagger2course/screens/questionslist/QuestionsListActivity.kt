@@ -1,7 +1,6 @@
 package com.techyourchance.dagger2course.screens.questionslist
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import com.techyourchance.dagger2course.questions.FetchQuestionsUseCase.Result
 import com.techyourchance.dagger2course.questions.Question
 import com.techyourchance.dagger2course.screens.common.activities.BaseActivity
@@ -24,7 +23,7 @@ class QuestionsListActivity : BaseActivity(), QuestionsListViewMvc.Listener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewMvc = QuestionsListViewMvc(layoutInflater = LayoutInflater.from(this), parent = null)
+        viewMvc = compositionRoot.viewMvcFactory.newQuestionsListMvc(parent = null)
 
         setContentView(viewMvc.rootView)
     }
