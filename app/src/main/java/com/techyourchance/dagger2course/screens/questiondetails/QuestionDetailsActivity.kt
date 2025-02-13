@@ -12,18 +12,17 @@ import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.launch
 
 class QuestionDetailsActivity : BaseActivity(), QuestionDetailsViewMvc.Listener {
-    private lateinit var questionId: String
-    private lateinit var viewMvc: QuestionDetailsViewMvc
-
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
+
+    private val viewMvc by lazy { compositionRoot.viewMvcFactory.newQuestionDetailsMvc(parent = null) }
     private val dialogsNavigator by lazy { compositionRoot.dialogsNavigator }
     private val screensNavigator by lazy { compositionRoot.screensNavigator }
     private val fetchQuestionDetailsUseCase by lazy { compositionRoot.fetchQuestionDetailsUseCase }
 
+    private lateinit var questionId: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        viewMvc = compositionRoot.viewMvcFactory.newQuestionDetailsMvc(parent = null)
         setContentView(viewMvc.rootView)
 
         // retrieve question ID passed from outside

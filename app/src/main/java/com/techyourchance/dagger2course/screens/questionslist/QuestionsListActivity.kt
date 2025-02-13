@@ -11,20 +11,17 @@ import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.launch
 
 class QuestionsListActivity : BaseActivity(), QuestionsListViewMvc.Listener {
-    private var isDataLoaded = false
-
-    private lateinit var viewMvc: QuestionsListViewMvc
-
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
+
+    private val viewMvc by lazy { compositionRoot.viewMvcFactory.newQuestionsListMvc(parent = null) }
     private val screensNavigator by lazy { compositionRoot.screensNavigator }
     private val dialogsNavigator by lazy { compositionRoot.dialogsNavigator }
     private val fetchQuestionsUseCase by lazy { compositionRoot.fetchQuestionsUseCase }
 
+    private var isDataLoaded = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        viewMvc = compositionRoot.viewMvcFactory.newQuestionsListMvc(parent = null)
-
         setContentView(viewMvc.rootView)
     }
 

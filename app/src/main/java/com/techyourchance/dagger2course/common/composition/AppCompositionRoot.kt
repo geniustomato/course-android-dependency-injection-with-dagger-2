@@ -5,6 +5,9 @@ import com.techyourchance.dagger2course.networking.StackoverflowApi
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+/**
+ * Provides global objects that is shared anywhere in the application
+ */
 class AppCompositionRoot {
     private val retrofit by lazy {
         Retrofit.Builder()
