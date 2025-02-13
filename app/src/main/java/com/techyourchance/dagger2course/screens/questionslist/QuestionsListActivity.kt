@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import com.techyourchance.dagger2course.questions.FetchQuestionsUseCase.Result
 import com.techyourchance.dagger2course.questions.Question
 import com.techyourchance.dagger2course.screens.common.activities.BaseActivity
-import com.techyourchance.dagger2course.screens.common.dialogs.DialogsNavigator
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -13,17 +12,14 @@ import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.launch
 
 class QuestionsListActivity : BaseActivity(), QuestionsListViewMvc.Listener {
-
-    private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private var isDataLoaded = false
 
     private lateinit var viewMvc: QuestionsListViewMvc
 
+    private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private val screensNavigator by lazy { compositionRoot.screensNavigator }
-    private val dialogsNavigator = DialogsNavigator(fragmentManager = supportFragmentManager)
-
+    private val dialogsNavigator by lazy { compositionRoot.dialogsNavigator }
     private val fetchQuestionsUseCase by lazy { compositionRoot.fetchQuestionsUseCase }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
