@@ -2,8 +2,6 @@ package com.techyourchance.dagger2course.common.composition
 
 import com.techyourchance.dagger2course.Constants
 import com.techyourchance.dagger2course.networking.StackoverflowApi
-import com.techyourchance.dagger2course.questions.FetchQuestionDetailsUseCase
-import com.techyourchance.dagger2course.questions.FetchQuestionsUseCase
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -15,8 +13,5 @@ class AppCompositionRoot {
             .build()
     }
 
-    private val stackoverflowApi: StackoverflowApi by lazy { retrofit.create(StackoverflowApi::class.java) }
-
-    val fetchQuestionsUseCase get() = FetchQuestionsUseCase(stackoverflowApi = stackoverflowApi)
-    val fetchQuestionDetailsUseCase get() = FetchQuestionDetailsUseCase(stackoverflowApi = stackoverflowApi)
+    val stackoverflowApi: StackoverflowApi by lazy { retrofit.create(StackoverflowApi::class.java) }
 }

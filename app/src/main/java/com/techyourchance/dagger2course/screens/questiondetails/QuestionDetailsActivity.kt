@@ -4,10 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
-import androidx.appcompat.app.AppCompatActivity
-import com.techyourchance.dagger2course.MyApplication
 import com.techyourchance.dagger2course.questions.FetchQuestionDetailsUseCase
-import com.techyourchance.dagger2course.screens.common.ScreensNavigator
 import com.techyourchance.dagger2course.screens.common.activities.BaseActivity
 import com.techyourchance.dagger2course.screens.common.dialogs.DialogsNavigator
 import kotlinx.coroutines.CoroutineScope
@@ -23,9 +20,9 @@ class QuestionDetailsActivity : BaseActivity(), QuestionDetailsViewMvc.Listener 
     private lateinit var viewMvc: QuestionDetailsViewMvc
 
     private val dialogsNavigator = DialogsNavigator(fragmentManager = supportFragmentManager)
-    private val screensNavigator = ScreensNavigator(activity = this)
+    private val screensNavigator by lazy { compositionRoot.screensNavigator }
 
-    private val fetchQuestionDetailsUseCase by lazy { appCompositionRoot.fetchQuestionDetailsUseCase }
+    private val fetchQuestionDetailsUseCase by lazy { compositionRoot.fetchQuestionDetailsUseCase }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
