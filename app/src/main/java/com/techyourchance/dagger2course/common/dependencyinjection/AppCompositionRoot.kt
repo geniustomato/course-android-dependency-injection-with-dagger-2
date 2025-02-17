@@ -1,5 +1,6 @@
-package com.techyourchance.dagger2course.common.composition
+package com.techyourchance.dagger2course.common.dependencyinjection
 
+import android.app.Application
 import com.techyourchance.dagger2course.Constants
 import com.techyourchance.dagger2course.networking.StackoverflowApi
 import retrofit2.Retrofit
@@ -8,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 /**
  * Provides global objects that is shared anywhere in the application
  */
-class AppCompositionRoot {
+class AppCompositionRoot(val application: Application) {
     private val retrofit by lazy {
         Retrofit.Builder()
             .baseUrl(Constants.BASE_URL)

@@ -1,5 +1,6 @@
-package com.techyourchance.dagger2course.common.composition
+package com.techyourchance.dagger2course.common.dependencyinjection
 
+import android.app.Application
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
@@ -10,9 +11,10 @@ import com.techyourchance.dagger2course.screens.common.ScreensNavigator
  * Provides object that are reused within an Activity's scope
  */
 class ActivityCompositionRoot(
-    private val activity: AppCompatActivity,
+    val activity: AppCompatActivity,
     private val appCompositionRoot: AppCompositionRoot,
 ) {
+    val application: Application get() = appCompositionRoot.application
     val stackoverflowApi: StackoverflowApi get() = appCompositionRoot.stackoverflowApi
     val fragmentManager: FragmentManager get() = activity.supportFragmentManager
     val layoutInflater: LayoutInflater get() = LayoutInflater.from(activity)
