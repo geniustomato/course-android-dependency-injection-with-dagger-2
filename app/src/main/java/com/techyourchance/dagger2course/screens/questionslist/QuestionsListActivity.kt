@@ -1,7 +1,7 @@
 package com.techyourchance.dagger2course.screens.questionslist
 
 import android.os.Bundle
-import com.techyourchance.dagger2course.questions.FetchQuestionDetailsUseCase
+import com.techyourchance.dagger2course.common.dependencyinjection.Service
 import com.techyourchance.dagger2course.questions.FetchQuestionsUseCase
 import com.techyourchance.dagger2course.questions.FetchQuestionsUseCase.Result
 import com.techyourchance.dagger2course.questions.Question
@@ -18,17 +18,24 @@ import kotlinx.coroutines.launch
 class QuestionsListActivity : BaseActivity(), QuestionsListViewMvc.Listener {
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
-    lateinit var screensNavigator: ScreensNavigator
-    lateinit var dialogsNavigator: DialogsNavigator
-    lateinit var fetchQuestionsUseCase: FetchQuestionsUseCase
-    lateinit var viewMvcFactory: ViewMvcFactory
+    @field:Service
+    private lateinit var screensNavigator: ScreensNavigator
+
+    @field:Service
+    private lateinit var dialogsNavigator: DialogsNavigator
+
+    @field:Service
+    private lateinit var fetchQuestionsUseCase: FetchQuestionsUseCase
+
+    @field:Service
+    private lateinit var viewMvcFactory: ViewMvcFactory
 
     private lateinit var viewMvc: QuestionsListViewMvc
 
     private var isDataLoaded = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        injector.inject(questionsListActivity = this)
+        injector.inject(client = this)
         super.onCreate(savedInstanceState)
         viewMvc = viewMvcFactory.newQuestionsListMvc(parent = null)
         setContentView(viewMvc.rootView)

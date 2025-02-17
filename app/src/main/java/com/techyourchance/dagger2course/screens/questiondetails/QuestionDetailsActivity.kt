@@ -3,6 +3,7 @@ package com.techyourchance.dagger2course.screens.questiondetails
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import com.techyourchance.dagger2course.common.dependencyinjection.Service
 import com.techyourchance.dagger2course.questions.FetchQuestionDetailsUseCase
 import com.techyourchance.dagger2course.screens.common.ScreensNavigator
 import com.techyourchance.dagger2course.screens.common.activities.BaseActivity
@@ -17,17 +18,24 @@ import kotlinx.coroutines.launch
 class QuestionDetailsActivity : BaseActivity(), QuestionDetailsViewMvc.Listener {
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
-    lateinit var dialogsNavigator :DialogsNavigator
-    lateinit var screensNavigator : ScreensNavigator
-    lateinit var fetchQuestionDetailsUseCase : FetchQuestionDetailsUseCase
-    lateinit var viewMvcFactory: ViewMvcFactory
+    @field:Service
+    private lateinit var dialogsNavigator: DialogsNavigator
 
-    private lateinit var viewMvc : QuestionDetailsViewMvc
+    @field:Service
+    private lateinit var screensNavigator: ScreensNavigator
+
+    @field:Service
+    private lateinit var fetchQuestionDetailsUseCase: FetchQuestionDetailsUseCase
+
+    @field:Service
+    private lateinit var viewMvcFactory: ViewMvcFactory
+
+    private lateinit var viewMvc: QuestionDetailsViewMvc
 
     private lateinit var questionId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        injector.inject(questionDetailsActivity = this)
+        injector.inject(client = this)
         super.onCreate(savedInstanceState)
         viewMvc = viewMvcFactory.newQuestionDetailsMvc(parent = null)
         setContentView(viewMvc.rootView)
