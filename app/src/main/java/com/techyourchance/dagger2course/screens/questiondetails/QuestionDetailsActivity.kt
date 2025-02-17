@@ -4,7 +4,10 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import com.techyourchance.dagger2course.questions.FetchQuestionDetailsUseCase
+import com.techyourchance.dagger2course.screens.common.ScreensNavigator
 import com.techyourchance.dagger2course.screens.common.activities.BaseActivity
+import com.techyourchance.dagger2course.screens.common.dialogs.DialogsNavigator
+import com.techyourchance.dagger2course.screens.common.viewmvc.ViewMvcFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -14,15 +17,19 @@ import kotlinx.coroutines.launch
 class QuestionDetailsActivity : BaseActivity(), QuestionDetailsViewMvc.Listener {
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
-    private val viewMvc by lazy { compositionRoot.viewMvcFactory.newQuestionDetailsMvc(parent = null) }
-    private val dialogsNavigator by lazy { compositionRoot.dialogsNavigator }
-    private val screensNavigator by lazy { compositionRoot.screensNavigator }
-    private val fetchQuestionDetailsUseCase by lazy { compositionRoot.fetchQuestionDetailsUseCase }
+    lateinit var dialogsNavigator :DialogsNavigator
+    lateinit var screensNavigator : ScreensNavigator
+    lateinit var fetchQuestionDetailsUseCase : FetchQuestionDetailsUseCase
+    lateinit var viewMvcFactory: ViewMvcFactory
+
+    private lateinit var viewMvc : QuestionDetailsViewMvc
 
     private lateinit var questionId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        injector.inject(questionDetailsActivity = this)
         super.onCreate(savedInstanceState)
+        viewMvc = viewMvcFactory.newQuestionDetailsMvc(parent = null)
         setContentView(viewMvc.rootView)
 
         // retrieve question ID passed from outside

@@ -1,9 +1,14 @@
 package com.techyourchance.dagger2course.screens.questionslist
 
 import android.os.Bundle
+import com.techyourchance.dagger2course.questions.FetchQuestionDetailsUseCase
+import com.techyourchance.dagger2course.questions.FetchQuestionsUseCase
 import com.techyourchance.dagger2course.questions.FetchQuestionsUseCase.Result
 import com.techyourchance.dagger2course.questions.Question
+import com.techyourchance.dagger2course.screens.common.ScreensNavigator
 import com.techyourchance.dagger2course.screens.common.activities.BaseActivity
+import com.techyourchance.dagger2course.screens.common.dialogs.DialogsNavigator
+import com.techyourchance.dagger2course.screens.common.viewmvc.ViewMvcFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -13,15 +18,19 @@ import kotlinx.coroutines.launch
 class QuestionsListActivity : BaseActivity(), QuestionsListViewMvc.Listener {
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
-    private val viewMvc by lazy { compositionRoot.viewMvcFactory.newQuestionsListMvc(parent = null) }
-    private val screensNavigator by lazy { compositionRoot.screensNavigator }
-    private val dialogsNavigator by lazy { compositionRoot.dialogsNavigator }
-    private val fetchQuestionsUseCase by lazy { compositionRoot.fetchQuestionsUseCase }
+    lateinit var screensNavigator: ScreensNavigator
+    lateinit var dialogsNavigator: DialogsNavigator
+    lateinit var fetchQuestionsUseCase: FetchQuestionsUseCase
+    lateinit var viewMvcFactory: ViewMvcFactory
+
+    private lateinit var viewMvc: QuestionsListViewMvc
 
     private var isDataLoaded = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        injector.inject(questionsListActivity = this)
         super.onCreate(savedInstanceState)
+        viewMvc = viewMvcFactory.newQuestionsListMvc(parent = null)
         setContentView(viewMvc.rootView)
     }
 
