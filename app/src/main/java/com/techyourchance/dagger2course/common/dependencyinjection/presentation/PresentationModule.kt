@@ -15,18 +15,23 @@ import dagger.Provides
  */
 @Module
 class PresentationModule {
+
+    @PresentationScope
     @Provides
     fun fetchQuestionsUseCase(stackoverflowApi: StackoverflowApi) =
         FetchQuestionsUseCase(stackoverflowApi = stackoverflowApi)
 
+    @PresentationScope
     @Provides
     fun fetchQuestionDetailsUseCase(stackoverflowApi: StackoverflowApi) =
         FetchQuestionDetailsUseCase(stackoverflowApi = stackoverflowApi)
 
+    @PresentationScope
     @Provides
     fun dialogsNavigator(fragmentManager: FragmentManager) =
         DialogsNavigator(fragmentManager = fragmentManager)
 
+    @PresentationScope
     @Provides
     fun viewMvcFactory(layoutInflater: LayoutInflater) =
         ViewMvcFactory(layoutInflater = layoutInflater)

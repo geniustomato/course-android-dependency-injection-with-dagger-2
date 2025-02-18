@@ -7,19 +7,27 @@ import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Singleton
 
 /**
  * Provides global objects that is shared anywhere in the application
  */
 @Module
-class AppModule(val application: Application) {
+class AppModule(private val application: Application) {
 
+    @Singleton
     @Provides
-    fun retrofit() = Retrofit.Builder()
-        .baseUrl(Constants.BASE_URL)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
+    fun retrofit(): Retrofit =
+        Retrofit.Builder()
+            .baseUrl(Constants.BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
 
+    @Singleton
+    @Provides
+    fun application() = application
+
+    @Singleton
     @Provides
     fun stackoverflowApi(retrofit: Retrofit): StackoverflowApi =
         retrofit.create(StackoverflowApi::class.java)
