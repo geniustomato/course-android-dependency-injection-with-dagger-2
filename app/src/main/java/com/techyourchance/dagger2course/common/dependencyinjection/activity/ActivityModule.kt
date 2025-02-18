@@ -16,11 +16,9 @@ class ActivityModule(
     val activity: AppCompatActivity,
 ) {
     @Provides
-    @ActivityScope
     fun fragmentManager() = activity.supportFragmentManager
 
     @Provides
-    @ActivityScope
     fun layoutInflater(): LayoutInflater = LayoutInflater.from(activity)
 
     @Provides

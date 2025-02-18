@@ -5,7 +5,6 @@ import com.techyourchance.dagger2course.MyApplication
 import com.techyourchance.dagger2course.common.dependencyinjection.activity.ActivityModule
 import com.techyourchance.dagger2course.common.dependencyinjection.activity.DaggerActivityComponent
 import com.techyourchance.dagger2course.common.dependencyinjection.presentation.DaggerPresentationComponent
-import com.techyourchance.dagger2course.common.dependencyinjection.Injector
 import com.techyourchance.dagger2course.common.dependencyinjection.presentation.PresentationModule
 
 open class BaseActivity : AppCompatActivity() {
@@ -26,5 +25,5 @@ open class BaseActivity : AppCompatActivity() {
 
     }
 
-    protected val injector: Injector get() = Injector(presentationComponent = presentationComponent)
+    protected val injector get() = presentationComponent
 }
