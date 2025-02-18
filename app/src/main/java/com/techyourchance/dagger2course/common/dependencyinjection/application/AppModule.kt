@@ -1,4 +1,4 @@
-package com.techyourchance.dagger2course.common.dependencyinjection
+package com.techyourchance.dagger2course.common.dependencyinjection.application
 
 import android.app.Application
 import com.techyourchance.dagger2course.Constants
