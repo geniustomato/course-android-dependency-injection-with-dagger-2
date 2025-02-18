@@ -1,0 +1,22 @@
+package com.techyourchance.dagger2course.common.dependencyinjection
+
+import com.techyourchance.dagger2course.questions.FetchQuestionDetailsUseCase
+import com.techyourchance.dagger2course.questions.FetchQuestionsUseCase
+import com.techyourchance.dagger2course.screens.common.ScreensNavigator
+import com.techyourchance.dagger2course.screens.common.dialogs.DialogsNavigator
+import com.techyourchance.dagger2course.screens.common.viewmvc.ViewMvcFactory
+import dagger.Component
+
+@Component(modules = [PresentationModule::class], dependencies = [ActivityComponent::class, AppComponent::class])
+interface PresentationComponent {
+
+    fun screensNavigator(): ScreensNavigator
+
+    fun fetchQuestionsUseCase(): FetchQuestionsUseCase
+
+    fun fetchQuestionDetailsUseCase(): FetchQuestionDetailsUseCase
+
+    fun dialogsNavigator(): DialogsNavigator
+
+    fun viewMvcFactory(): ViewMvcFactory
+}

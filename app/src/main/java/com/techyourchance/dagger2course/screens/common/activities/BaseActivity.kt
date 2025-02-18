@@ -2,25 +2,33 @@ package com.techyourchance.dagger2course.screens.common.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import com.techyourchance.dagger2course.MyApplication
-import com.techyourchance.dagger2course.common.dependencyinjection.ActivityCompositionRoot
+import com.techyourchance.dagger2course.common.dependencyinjection.ActivityModule
+import com.techyourchance.dagger2course.common.dependencyinjection.DaggerActivityComponent
+import com.techyourchance.dagger2course.common.dependencyinjection.DaggerPresentationComponent
 import com.techyourchance.dagger2course.common.dependencyinjection.Injector
-import com.techyourchance.dagger2course.common.dependencyinjection.PresentationCompositionRoot
+import com.techyourchance.dagger2course.common.dependencyinjection.PresentationModule
 
 open class BaseActivity : AppCompatActivity() {
-    private val appCompositionRoot get() = (application as MyApplication).appCompositionRoot
+    private val appComponent by lazy { (application as MyApplication).appComponent }
 
-    private val activityCompositionRoot by lazy {
-        ActivityCompositionRoot(
-            activity = this,
-            appCompositionRoot = appCompositionRoot
-        )
+    private val activityComponent by lazy {
+        DaggerActivityComponent.builder()
+            .activityModule(
+                ActivityModule(
+                    activity = this
+                )
+            )
+            .build()
     }
 
-    private val compositionRoot by lazy {
-        PresentationCompositionRoot(
-            activityCompositionRoot = activityCompositionRoot,
-        )
+    private val presentationComponent by lazy {
+        DaggerPresentationComponent.builder()
+            .appComponent(appComponent)
+            .activityComponent(activityComponent)
+            .presentationModule(PresentationModule())
+            .build()
+
     }
 
-    protected val injector : Injector get() = Injector(presentationCompositionRoot = compositionRoot)
+    protected val injector: Injector get() = Injector(presentationComponent = presentationComponent)
 }

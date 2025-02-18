@@ -7,7 +7,7 @@ import com.techyourchance.dagger2course.screens.common.dialogs.DialogsNavigator
 import com.techyourchance.dagger2course.screens.common.viewmvc.ViewMvcFactory
 import java.lang.reflect.Field
 
-class Injector(private val presentationCompositionRoot: PresentationCompositionRoot) {
+class Injector(private val presentationComponent: PresentationComponent) {
     fun inject(client: Any) {
         for (field in getAllFields(client)) {
             if (isAnnotatedForInjection(field)) {
@@ -29,23 +29,23 @@ class Injector(private val presentationCompositionRoot: PresentationCompositionR
     private fun getServiceForClass(type: Class<*>?): Any {
         return when (type) {
             DialogsNavigator::class.java -> {
-                presentationCompositionRoot.dialogsNavigator
+                presentationComponent.dialogsNavigator()
             }
 
             ScreensNavigator::class.java -> {
-                presentationCompositionRoot.screensNavigator
+                presentationComponent.screensNavigator()
             }
 
             FetchQuestionsUseCase::class.java -> {
-                presentationCompositionRoot.fetchQuestionsUseCase
+                presentationComponent.fetchQuestionsUseCase()
             }
 
             FetchQuestionDetailsUseCase::class.java -> {
-                presentationCompositionRoot.fetchQuestionDetailsUseCase
+                presentationComponent.fetchQuestionDetailsUseCase()
             }
 
             ViewMvcFactory::class.java -> {
-                presentationCompositionRoot.viewMvcFactory
+                presentationComponent.viewMvcFactory()
             }
 
             else -> throw Exception("Unsupported type: $type")
@@ -56,5 +56,4 @@ class Injector(private val presentationCompositionRoot: PresentationCompositionR
         field.annotations.any { it is Service }
 
     private fun getAllFields(client: Any): Array<out Field> = client::class.java.declaredFields
-
 }
