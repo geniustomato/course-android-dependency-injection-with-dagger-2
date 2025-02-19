@@ -4,13 +4,13 @@ import com.techyourchance.dagger2course.screens.questiondetails.QuestionDetailsA
 import com.techyourchance.dagger2course.screens.questionslist.QuestionsListActivity
 import dagger.Subcomponent
 
-@Subcomponent(modules = [PresentationModule::class])
+@Subcomponent(modules = [PresentationModule::class, UseCasesModule::class])
 interface PresentationComponent {
     fun inject(client: QuestionsListActivity)
     fun inject(client: QuestionDetailsActivity)
 
     @Subcomponent.Factory
     interface Factory {
-        fun create(): PresentationComponent
+        fun create(presentationModule: PresentationModule, useCasesModule: UseCasesModule): PresentationComponent
     }
 }

@@ -1,8 +1,6 @@
 package com.techyourchance.dagger2course.common.dependencyinjection.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import com.techyourchance.dagger2course.common.dependencyinjection.presentation.PresentationComponent
-import dagger.BindsInstance
 import dagger.Subcomponent
 
 @ActivityScope
@@ -12,6 +10,6 @@ interface ActivityComponent {
 
     @Subcomponent.Factory
     interface Factory {
-        fun create(@BindsInstance activity: AppCompatActivity): ActivityComponent
+        fun create(activityModule: ActivityModule): ActivityComponent
     }
 }

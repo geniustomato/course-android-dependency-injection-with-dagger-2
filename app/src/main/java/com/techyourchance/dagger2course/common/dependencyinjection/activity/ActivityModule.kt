@@ -10,13 +10,13 @@ import dagger.Provides
  * Provides object that are reused within an Activity's scope
  */
 @Module
-class ActivityModule {
+class ActivityModule(private val activity: AppCompatActivity) {
     @Provides
-    fun fragmentManager(activity: AppCompatActivity) = activity.supportFragmentManager
+    fun fragmentManager() = activity.supportFragmentManager
 
     @Provides
-    fun layoutInflater(activity: AppCompatActivity): LayoutInflater = LayoutInflater.from(activity)
+    fun layoutInflater(): LayoutInflater = LayoutInflater.from(activity)
 
     @Provides
-    fun screensNavigator(activity: AppCompatActivity) = ScreensNavigator(activity = activity)
+    fun screensNavigator() = ScreensNavigator(activity = activity)
 }
