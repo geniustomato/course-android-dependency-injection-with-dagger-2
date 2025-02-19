@@ -22,6 +22,5 @@ class ActivityModule(
     fun layoutInflater(): LayoutInflater = LayoutInflater.from(activity)
 
     @Provides
-    @ActivityScope
     fun screensNavigator() = ScreensNavigator(activity = activity)
 }

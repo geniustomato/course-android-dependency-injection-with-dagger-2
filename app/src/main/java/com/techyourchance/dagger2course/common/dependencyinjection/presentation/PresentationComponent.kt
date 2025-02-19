@@ -7,7 +7,7 @@ import dagger.Component
 
 @PresentationScope
 @Component(dependencies = [ActivityComponent::class], modules = [PresentationModule::class])
-interface PresentationComponent {
+interface  PresentationComponent {
     fun inject(client: QuestionsListActivity)
     fun inject(client: QuestionDetailsActivity)
 }

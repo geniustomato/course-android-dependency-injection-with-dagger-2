@@ -23,7 +23,6 @@ class AppModule(private val application: Application) {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-    @Singleton
     @Provides
     fun application() = application
 
