@@ -27,7 +27,7 @@ class QuestionsListActivity : BaseActivity(), QuestionsListViewMvc.Listener {
     private var isDataLoaded = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        injector.inject(client = this)
+        injector.create(this).inject(client = this)
         super.onCreate(savedInstanceState)
         viewMvc = viewMvcFactory.newQuestionsListMvc(parent = null)
         setContentView(viewMvc.rootView)
