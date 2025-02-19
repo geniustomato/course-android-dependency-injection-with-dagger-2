@@ -1,9 +1,7 @@
 package com.techyourchance.dagger2course.common.dependencyinjection.presentation
 
-import android.app.Activity
 import com.techyourchance.dagger2course.screens.questiondetails.QuestionDetailsActivity
 import com.techyourchance.dagger2course.screens.questionslist.QuestionsListActivity
-import dagger.BindsInstance
 import dagger.Subcomponent
 
 @Subcomponent(modules = [PresentationModule::class])
@@ -13,6 +11,6 @@ interface PresentationComponent {
 
     @Subcomponent.Factory
     interface Factory {
-        fun create(@BindsInstance activity: Activity): PresentationComponent
+        fun create(): PresentationComponent
     }
 }

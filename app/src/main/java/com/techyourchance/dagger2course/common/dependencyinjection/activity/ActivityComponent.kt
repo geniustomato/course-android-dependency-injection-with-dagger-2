@@ -1,11 +1,17 @@
 package com.techyourchance.dagger2course.common.dependencyinjection.activity
 
-import com.techyourchance.dagger2course.common.dependencyinjection.application.AppComponent
+import androidx.appcompat.app.AppCompatActivity
 import com.techyourchance.dagger2course.common.dependencyinjection.presentation.PresentationComponent
-import dagger.Component
+import dagger.BindsInstance
+import dagger.Subcomponent
 
 @ActivityScope
-@Component(dependencies = [AppComponent::class], modules = [ActivityModule::class])
+@Subcomponent(modules = [ActivityModule::class])
 interface ActivityComponent {
     fun presentationComponent(): PresentationComponent.Factory
+
+    @Subcomponent.Factory
+    interface Factory {
+        fun create(@BindsInstance activity: AppCompatActivity): ActivityComponent
+    }
 }

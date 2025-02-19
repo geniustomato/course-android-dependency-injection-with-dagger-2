@@ -1,9 +1,7 @@
 package com.techyourchance.dagger2course.common.dependencyinjection.activity
 
-import android.app.Application
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
-import com.techyourchance.dagger2course.networking.StackoverflowApi
 import com.techyourchance.dagger2course.screens.common.ScreensNavigator
 import dagger.Module
 import dagger.Provides
@@ -12,15 +10,13 @@ import dagger.Provides
  * Provides object that are reused within an Activity's scope
  */
 @Module
-class ActivityModule(
-    val activity: AppCompatActivity,
-) {
+class ActivityModule {
     @Provides
-    fun fragmentManager() = activity.supportFragmentManager
+    fun fragmentManager(activity: AppCompatActivity) = activity.supportFragmentManager
 
     @Provides
-    fun layoutInflater(): LayoutInflater = LayoutInflater.from(activity)
+    fun layoutInflater(activity: AppCompatActivity): LayoutInflater = LayoutInflater.from(activity)
 
     @Provides
-    fun screensNavigator() = ScreensNavigator(activity = activity)
+    fun screensNavigator(activity: AppCompatActivity) = ScreensNavigator(activity = activity)
 }
