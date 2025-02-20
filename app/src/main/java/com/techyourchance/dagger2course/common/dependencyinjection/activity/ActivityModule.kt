@@ -17,6 +17,7 @@ class ActivityModule(private val activity: AppCompatActivity) {
     @Provides
     fun layoutInflater(): LayoutInflater = LayoutInflater.from(activity)
 
+    @ActivityScope
     @Provides
     fun screensNavigator() = ScreensNavigator(activity = activity)
 }

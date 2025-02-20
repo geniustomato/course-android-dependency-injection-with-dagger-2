@@ -4,8 +4,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.techyourchance.dagger2course.MyApplication
 import com.techyourchance.dagger2course.common.dependencyinjection.activity.ActivityModule
 import com.techyourchance.dagger2course.common.dependencyinjection.presentation.PresentationComponent
-import com.techyourchance.dagger2course.common.dependencyinjection.presentation.PresentationModule
-import com.techyourchance.dagger2course.common.dependencyinjection.presentation.UseCasesModule
 
 open class BaseActivity : AppCompatActivity() {
     private val appComponent by lazy { (application as MyApplication).appComponent }
@@ -19,10 +17,7 @@ open class BaseActivity : AppCompatActivity() {
     }
 
     private val presentationComponent by lazy {
-        activityComponent.presentationComponent().create(
-            PresentationModule(),
-            UseCasesModule()
-        )
+        activityComponent.presentationComponent().create()
     }
 
     protected val injector: PresentationComponent get() = presentationComponent

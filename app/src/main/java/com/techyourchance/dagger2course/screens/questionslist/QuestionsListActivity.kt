@@ -1,6 +1,7 @@
 package com.techyourchance.dagger2course.screens.questionslist
 
 import android.os.Bundle
+import android.util.Log
 import com.techyourchance.dagger2course.questions.FetchQuestionsUseCase
 import com.techyourchance.dagger2course.questions.FetchQuestionsUseCase.Result
 import com.techyourchance.dagger2course.questions.Question
