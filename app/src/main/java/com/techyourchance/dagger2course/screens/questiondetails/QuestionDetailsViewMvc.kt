@@ -4,15 +4,19 @@ import android.os.Build
 import android.text.Html
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.techyourchance.dagger2course.R
+import com.techyourchance.dagger2course.common.imageloader.ImageLoader
 import com.techyourchance.dagger2course.screens.common.toolbar.MyToolbar
 import com.techyourchance.dagger2course.screens.common.viewmvc.BaseViewMvc
+import com.techyourchance.dagger2course.users.User
 
 class QuestionDetailsViewMvc(
     layoutInflater: LayoutInflater,
-    parent: ViewGroup?
+    parent: ViewGroup?,
+    val imageLoader: ImageLoader
 ) : BaseViewMvc<QuestionDetailsViewMvc.Listener>(
     layoutInflater = layoutInflater,
     parent = parent,
@@ -23,10 +27,11 @@ class QuestionDetailsViewMvc(
         fun onNavigationUp()
     }
 
-    // init toolbar
     private var toolbar: MyToolbar = findViewById(R.id.toolbar)
     private var swipeRefresh: SwipeRefreshLayout = findViewById(R.id.swipeRefresh)
     private var txtQuestionBody: TextView = findViewById(R.id.txt_question_body)
+    private var userImage: ImageView = findViewById(R.id.image_user_picture)
+    private var userName: TextView = findViewById(R.id.text_user_name)
 
     init {
         toolbar.setNavigateUpListener {
@@ -37,6 +42,11 @@ class QuestionDetailsViewMvc(
 
         // init pull-down-to-refresh (used as a progress indicator)
         swipeRefresh.isEnabled = false
+    }
+
+    fun displayUserDetails(user: User) {
+        userName.text = user.name
+        imageLoader.loadImage(imageUrl = user.imageUrl, imageView = userImage)
     }
 
     fun displayQuestionBody(questionBody: String) {

@@ -3,6 +3,7 @@ package com.techyourchance.dagger2course.questions
 import com.techyourchance.dagger2course.networking.SingleQuestionResponseSchema
 import com.techyourchance.dagger2course.networking.StackoverflowApi
 import com.techyourchance.dagger2course.questions.FetchQuestionDetailsUseCase.Result
+import com.techyourchance.dagger2course.users.User
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
@@ -27,20 +28,30 @@ class FetchQuestionDetailsUseCaseTest {
             title = "title",
             id = "id",
             body = "body",
+            user = User(
+                name = "name",
+                imageUrl = "imageUrl"
+            )
         )
 
     private val questionId = "id"
 
 
-
     @BeforeEach
     fun setUp() {
-        fetchQuestionDetailsUseCase = FetchQuestionDetailsUseCase(stackoverflowApi = stackoverflowApi)
+        fetchQuestionDetailsUseCase =
+            FetchQuestionDetailsUseCase(stackoverflowApi = stackoverflowApi)
     }
 
     @Test
     fun `Should fetch question details successfully`() {
-        val expected = Result.Success(questionBody = testData.body)
+        val expected = Result.Success(
+            questionDetails = QuestionDetailsDTO(
+                user = testData.user,
+                questionBody = testData.body
+            )
+        )
+
         val questionId = "id"
 
         coEvery { stackoverflowApi.questionDetails(questionId = any()) } returns Response.success(
@@ -57,7 +68,9 @@ class FetchQuestionDetailsUseCaseTest {
     fun `Should prompt failure when fetch question details returns null response body`() {
         val expected = Result.Failure
 
-        coEvery { stackoverflowApi.questionDetails(questionId = any()) } returns Response.success(null)
+        coEvery { stackoverflowApi.questionDetails(questionId = any()) } returns Response.success(
+            null
+        )
 
         runTest {
             val actual = fetchQuestionDetailsUseCase.fetchQuestionDetails(questionId = questionId)
@@ -98,7 +111,11 @@ class FetchQuestionDetailsUseCaseTest {
         coEvery { stackoverflowApi.questionDetails(any()) } throws CancellationException()
 
         runTest {
-            assertThrows<CancellationException>(message = { "Throwing Cancellation Exception"}) { fetchQuestionDetailsUseCase.fetchQuestionDetails(questionId = questionId) }
+            assertThrows<CancellationException>(message = { "Throwing Cancellation Exception" }) {
+                fetchQuestionDetailsUseCase.fetchQuestionDetails(
+                    questionId = questionId
+                )
+            }
         }
     }
 }

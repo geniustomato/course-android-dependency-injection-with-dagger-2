@@ -3,7 +3,6 @@ package com.techyourchance.dagger2course.screens.questiondetails
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import com.techyourchance.dagger2course.questions.FetchQuestionDetailsUseCase
 import com.techyourchance.dagger2course.screens.common.ScreensNavigator
 import com.techyourchance.dagger2course.screens.common.activities.BaseActivity
@@ -19,10 +18,18 @@ import javax.inject.Inject
 class QuestionDetailsActivity : BaseActivity(), QuestionDetailsViewMvc.Listener {
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
-    @Inject lateinit var dialogsNavigator: DialogsNavigator
-    @Inject lateinit var screensNavigator: ScreensNavigator
-    @Inject lateinit var fetchQuestionDetailsUseCase: FetchQuestionDetailsUseCase
-    @Inject lateinit var viewMvcFactory: ViewMvcFactory
+    @Inject
+    lateinit var dialogsNavigator: DialogsNavigator
+
+    @Inject
+    lateinit var screensNavigator: ScreensNavigator
+
+    @Inject
+    lateinit var fetchQuestionDetailsUseCase: FetchQuestionDetailsUseCase
+
+
+    @Inject
+    lateinit var viewMvcFactory: ViewMvcFactory
 
     private lateinit var viewMvc: QuestionDetailsViewMvc
     private lateinit var questionId: String
@@ -59,10 +66,11 @@ class QuestionDetailsActivity : BaseActivity(), QuestionDetailsViewMvc.Listener 
             try {
                 when (val result =
                     fetchQuestionDetailsUseCase.fetchQuestionDetails(questionId = questionId)) {
-                    is FetchQuestionDetailsUseCase.Result.Success -> viewMvc.displayQuestionBody(
-                        result.questionBody
-                    )
-
+                    is FetchQuestionDetailsUseCase.Result.Success ->
+                        with(result.questionDetails) {
+                            viewMvc.displayUserDetails(user = user)
+                            viewMvc.displayQuestionBody(questionBody = questionBody)
+                        }
                     FetchQuestionDetailsUseCase.Result.Failure -> onFetchFailed()
                 }
             } finally {

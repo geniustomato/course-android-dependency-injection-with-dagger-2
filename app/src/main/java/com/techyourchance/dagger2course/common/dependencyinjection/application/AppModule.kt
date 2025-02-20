@@ -3,6 +3,8 @@ package com.techyourchance.dagger2course.common.dependencyinjection.application
 import android.app.Application
 import com.techyourchance.dagger2course.Constants
 import com.techyourchance.dagger2course.networking.StackoverflowApi
+import com.techyourchance.dagger2course.common.imageloader.GlideImageLoader
+import com.techyourchance.dagger2course.common.imageloader.ImageLoader
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
@@ -22,6 +24,11 @@ class AppModule(private val application: Application) {
             .baseUrl(Constants.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
+
+    @Singleton
+    @Provides
+    fun imageLoader(): ImageLoader =
+        GlideImageLoader(context = application)
 
     @Provides
     fun application() = application
