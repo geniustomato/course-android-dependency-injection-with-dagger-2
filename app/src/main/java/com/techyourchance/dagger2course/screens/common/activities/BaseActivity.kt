@@ -8,7 +8,7 @@ import com.techyourchance.dagger2course.common.dependencyinjection.presentation.
 open class BaseActivity : AppCompatActivity() {
     private val appComponent by lazy { (application as MyApplication).appComponent }
 
-    private val activityComponent by lazy {
+    val activityComponent by lazy {
         appComponent
             .activityComponent()
             .create(
