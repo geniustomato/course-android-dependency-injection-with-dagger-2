@@ -1,6 +1,7 @@
 package com.techyourchance.dagger2course.common.dependencyinjection.application
 
 import com.techyourchance.dagger2course.common.dependencyinjection.activity.ActivityComponent
+import com.techyourchance.dagger2course.common.dependencyinjection.service.ServiceComponent
 import dagger.Component
 import javax.inject.Singleton
 
@@ -8,4 +9,5 @@ import javax.inject.Singleton
 @Component(modules = [AppModule::class])
 interface AppComponent {
     fun activityComponent(): ActivityComponent.Factory
+    fun serviceComponent(): ServiceComponent.Factory
 }
