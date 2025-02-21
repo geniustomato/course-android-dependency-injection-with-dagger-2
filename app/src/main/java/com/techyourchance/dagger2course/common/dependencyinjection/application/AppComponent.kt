@@ -8,6 +8,6 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = [AppModule::class])
 interface AppComponent {
-    fun activityComponent(): ActivityComponent.Factory
+    fun activityComponent(): ActivityComponent.Builder
     fun serviceComponent(): ServiceComponent.Factory
 }
