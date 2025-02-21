@@ -2,7 +2,9 @@ package com.techyourchance.dagger2course.common.dependencyinjection.activity
 
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
-import com.techyourchance.dagger2course.screens.common.ScreensNavigator
+import com.techyourchance.dagger2course.screens.common.screensnavigator.ScreensNavigator
+import com.techyourchance.dagger2course.screens.common.screensnavigator.ScreensNavigatorImpl
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 
@@ -10,15 +12,18 @@ import dagger.Provides
  * Provides object that are reused within an Activity's scope
  */
 @Module
-object ActivityModule {
-    @Provides
-    fun fragmentManager(activity: AppCompatActivity) = activity.supportFragmentManager
-
-    @Provides
-    fun layoutInflater(activity: AppCompatActivity): LayoutInflater =
-        LayoutInflater.from(activity)
+abstract class ActivityModule {
 
     @ActivityScope
-    @Provides
-    fun screensNavigator(activity: AppCompatActivity) = ScreensNavigator(activity = activity)
+    @Binds
+    abstract fun screensNavigator(screensNavigatorImpl: ScreensNavigatorImpl): ScreensNavigator
+
+    companion object {
+        @Provides
+        fun fragmentManager(activity: AppCompatActivity) = activity.supportFragmentManager
+
+        @Provides
+        fun layoutInflater(activity: AppCompatActivity): LayoutInflater =
+            LayoutInflater.from(activity)
+    }
 }

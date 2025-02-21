@@ -2,7 +2,6 @@ package com.techyourchance.dagger2course.screens.common.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import com.techyourchance.dagger2course.MyApplication
-import com.techyourchance.dagger2course.common.dependencyinjection.activity.ActivityModule
 import com.techyourchance.dagger2course.common.dependencyinjection.presentation.PresentationComponent
 
 open class BaseActivity : AppCompatActivity() {
@@ -12,7 +11,6 @@ open class BaseActivity : AppCompatActivity() {
         appComponent
             .activityComponent()
             .activity(activity = this)
-            .activityModule(ActivityModule)
             .build()
     }
 

@@ -1,13 +1,12 @@
 package com.techyourchance.dagger2course.screens.questionslist
 
 import android.os.Bundle
-import android.util.Log
 import com.techyourchance.dagger2course.questions.FetchQuestionsUseCase
 import com.techyourchance.dagger2course.questions.FetchQuestionsUseCase.Result
 import com.techyourchance.dagger2course.questions.Question
-import com.techyourchance.dagger2course.screens.common.ScreensNavigator
 import com.techyourchance.dagger2course.screens.common.activities.BaseActivity
 import com.techyourchance.dagger2course.screens.common.dialogs.DialogsNavigator
+import com.techyourchance.dagger2course.screens.common.screensnavigator.ScreensNavigator
 import com.techyourchance.dagger2course.screens.common.viewmvc.ViewMvcFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -19,10 +18,17 @@ import javax.inject.Inject
 class QuestionsListActivity : BaseActivity(), QuestionsListViewMvc.Listener {
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
-    @Inject lateinit var screensNavigator: ScreensNavigator
-    @Inject lateinit var dialogsNavigator: DialogsNavigator
-    @Inject lateinit var fetchQuestionsUseCase: FetchQuestionsUseCase
-    @Inject lateinit var viewMvcFactory: ViewMvcFactory
+    @Inject
+    lateinit var screensNavigator: ScreensNavigator
+
+    @Inject
+    lateinit var dialogsNavigator: DialogsNavigator
+
+    @Inject
+    lateinit var fetchQuestionsUseCase: FetchQuestionsUseCase
+
+    @Inject
+    lateinit var viewMvcFactory: ViewMvcFactory
 
     private lateinit var viewMvc: QuestionsListViewMvc
     private var isDataLoaded = false
