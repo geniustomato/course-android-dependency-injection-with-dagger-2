@@ -2,9 +2,12 @@ package com.techyourchance.dagger2course.common.dependencyinjection.application
 
 import android.app.Application
 import com.techyourchance.dagger2course.Constants
+import com.techyourchance.dagger2course.common.dependencyinjection.qualifier.StackoverflowRetrofit
+import com.techyourchance.dagger2course.common.dependencyinjection.qualifier.RetrofitTestQualifier
 import com.techyourchance.dagger2course.networking.StackoverflowApi
 import com.techyourchance.dagger2course.common.imageloader.GlideImageLoader
 import com.techyourchance.dagger2course.common.imageloader.ImageLoader
+import com.techyourchance.dagger2course.networking.UrlProvider
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
@@ -17,13 +20,27 @@ import javax.inject.Singleton
 @Module
 class AppModule(private val application: Application) {
 
-    @Singleton
     @Provides
-    fun retrofit(): Retrofit =
+    @Singleton
+    @StackoverflowRetrofit
+    fun retrofit1(urlProvider: UrlProvider): Retrofit =
         Retrofit.Builder()
-            .baseUrl(Constants.BASE_URL)
+            .baseUrl(urlProvider.baseUrl1())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
+
+    @Provides
+    @Singleton
+    @RetrofitTestQualifier
+    fun retrofit2(urlProvider: UrlProvider): Retrofit =
+        Retrofit.Builder()
+            .baseUrl(urlProvider.baseUrl2())
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+    @Provides
+    @Singleton
+    fun urlProvider() = UrlProvider()
 
     @Singleton
     @Provides
@@ -35,6 +52,6 @@ class AppModule(private val application: Application) {
 
     @Singleton
     @Provides
-    fun stackoverflowApi(retrofit: Retrofit): StackoverflowApi =
+    fun stackoverflowApi(@StackoverflowRetrofit retrofit: Retrofit): StackoverflowApi =
         retrofit.create(StackoverflowApi::class.java)
 }
