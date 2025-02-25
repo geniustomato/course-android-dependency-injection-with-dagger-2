@@ -87,4 +87,8 @@ class QuestionsListActivity : BaseActivity(), QuestionsListViewMvc.Listener {
     private fun onFetchFailed() {
         dialogsNavigator.showServerErrorDialog()
     }
+
+    override fun onViewModelClicked() {
+        screensNavigator.toViewModel()
+    }
 }

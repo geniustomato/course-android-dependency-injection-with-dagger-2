@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.techyourchance.dagger2course.R
 import com.techyourchance.dagger2course.questions.Question
+import com.techyourchance.dagger2course.screens.common.toolbar.MyToolbar
 import com.techyourchance.dagger2course.screens.common.viewmvc.BaseViewMvc
 
 class QuestionsListViewMvc(
@@ -24,15 +25,22 @@ class QuestionsListViewMvc(
     interface Listener {
         fun onRefresh()
         fun onQuestionClicked(clickedQuestion: Question)
+        fun onViewModelClicked()
     }
 
-    // init pull-down-to-refresh
+    private val toolbar: MyToolbar = findViewById(R.id.toolbar)
     private val swipeRefresh: SwipeRefreshLayout = findViewById(R.id.swipeRefresh)
     private val recyclerView: RecyclerView = findViewById(R.id.recycler)
     private val questionsAdapter: QuestionsAdapter
 
 
     init {
+        toolbar.setViewModelListener {
+            for(listener in listeners) {
+                listener.onViewModelClicked()
+            }
+        }
+
         swipeRefresh.setOnRefreshListener {
             for (listener in listeners) {
                 listener.onRefresh()
