@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.techyourchance.dagger2course.R
+import com.techyourchance.dagger2course.common.viewmodels.ViewModelFactory
 import com.techyourchance.dagger2course.screens.common.activities.BaseActivity
 import com.techyourchance.dagger2course.screens.common.screensnavigator.ScreensNavigator
 import com.techyourchance.dagger2course.screens.common.toolbar.MyToolbar
@@ -18,9 +19,10 @@ class ViewModelActivity : BaseActivity() {
     lateinit var screensNavigator: ScreensNavigator
 
     @Inject
-    lateinit var myViewModelFactory: MyViewModel.MyViewModelFactory
+    lateinit var myViewModelFactory: ViewModelFactory
 
     private lateinit var myViewModel: MyViewModel
+    private lateinit var myViewModel2: MyViewModel2
 
     private lateinit var toolbar: MyToolbar
 
@@ -36,6 +38,7 @@ class ViewModelActivity : BaseActivity() {
         }
 
         myViewModel = ViewModelProvider(this, myViewModelFactory)[MyViewModel::class.java]
+        myViewModel2 = ViewModelProvider(this, myViewModelFactory)[MyViewModel2::class.java]
 
         myViewModel.question.observe(this, Observer {
             Toast.makeText(

@@ -9,7 +9,7 @@ import com.techyourchance.dagger2course.questions.Question
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class MyViewModel @Inject constructor(
+class MyViewModel2 @Inject constructor(
     private val fetchQuestionsUseCase: FetchQuestionsUseCase,
 ) : ViewModel() {
 
