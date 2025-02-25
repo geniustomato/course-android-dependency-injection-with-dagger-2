@@ -3,11 +3,13 @@ package com.techyourchance.dagger2course.screens.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.techyourchance.dagger2course.questions.FetchQuestionsUseCase
 import com.techyourchance.dagger2course.questions.Question
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import javax.inject.Provider
 
 class MyViewModel @Inject constructor(
     private val fetchQuestionsUseCase: FetchQuestionsUseCase,
@@ -22,6 +24,14 @@ class MyViewModel @Inject constructor(
                 is FetchQuestionsUseCase.Result.Success -> _questions.value = result.data
                 FetchQuestionsUseCase.Result.Failure -> throw RuntimeException("Fetch failed")
             }
+        }
+    }
+
+    class MyViewModelFactory @Inject constructor(
+        private val fetchQuestionsUseCaseProvider: Provider<FetchQuestionsUseCase>
+    ): ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return MyViewModel(fetchQuestionsUseCase = fetchQuestionsUseCaseProvider.get()) as T
         }
     }
 }
