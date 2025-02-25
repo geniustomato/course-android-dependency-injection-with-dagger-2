@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.techyourchance.dagger2course.R
 import com.techyourchance.dagger2course.common.viewmodels.ViewModelFactory
@@ -40,12 +39,12 @@ class ViewModelActivity : BaseActivity() {
         myViewModel = ViewModelProvider(this, myViewModelFactory)[MyViewModel::class.java]
         myViewModel2 = ViewModelProvider(this, myViewModelFactory)[MyViewModel2::class.java]
 
-        myViewModel.question.observe(this, Observer {
+        myViewModel.question.observe(this) {
             Toast.makeText(
                 this,
                 it?.let { "Fetch Successful" } ?: "Fetch Failed",
                 Toast.LENGTH_LONG).show()
-        })
+        }
     }
 
     companion object {
