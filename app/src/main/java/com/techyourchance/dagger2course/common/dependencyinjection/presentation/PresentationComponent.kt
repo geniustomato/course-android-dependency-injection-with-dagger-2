@@ -5,7 +5,7 @@ import com.techyourchance.dagger2course.screens.questionslist.QuestionsListActiv
 import com.techyourchance.dagger2course.screens.viewmodel.ViewModelActivity
 import dagger.Subcomponent
 
-@Subcomponent
+@Subcomponent(modules = [ViewModelsModule::class])
 interface PresentationComponent {
     fun inject(client: QuestionsListActivity)
     fun inject(client: QuestionDetailsActivity)
