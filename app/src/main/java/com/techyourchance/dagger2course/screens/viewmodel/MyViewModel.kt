@@ -3,25 +3,26 @@ package com.techyourchance.dagger2course.screens.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.techyourchance.dagger2course.questions.FetchQuestionsUseCase
 import com.techyourchance.dagger2course.questions.Question
-import com.techyourchance.dagger2course.screens.common.viewmodels.SavedStateViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 private const val QUESTION_KEY = "questions"
 
-
+@HiltViewModel
 class MyViewModel @Inject constructor(
     private val fetchQuestionsUseCase: FetchQuestionsUseCase,
-) : SavedStateViewModel() {
+    private val savedStateHandle: SavedStateHandle,
+) : ViewModel() {
 
-    private lateinit var _questions: MutableLiveData<List<Question>>
+    private val _questions: MutableLiveData<List<Question>> = savedStateHandle.getLiveData(QUESTION_KEY)
     val question: LiveData<List<Question>> get() = _questions
 
-    override fun init(savedStateHandle: SavedStateHandle) {
-        _questions = savedStateHandle.getLiveData(QUESTION_KEY)
+    init {
         fun isStateSaved() = savedStateHandle.get<Question>(QUESTION_KEY) != null
 
 
@@ -34,4 +35,6 @@ class MyViewModel @Inject constructor(
             }
         }
     }
+
+
 }
