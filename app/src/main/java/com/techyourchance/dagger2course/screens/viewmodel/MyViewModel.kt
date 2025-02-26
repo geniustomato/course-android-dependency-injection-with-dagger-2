@@ -3,23 +3,28 @@ package com.techyourchance.dagger2course.screens.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.techyourchance.dagger2course.questions.FetchQuestionsUseCase
 import com.techyourchance.dagger2course.questions.Question
+import com.techyourchance.dagger2course.screens.common.viewmodels.SavedStateViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+private const val QUESTION_KEY = "questions"
+
+
 class MyViewModel @Inject constructor(
     private val fetchQuestionsUseCase: FetchQuestionsUseCase,
-    private val savedStateHandle: SavedStateHandle
-) : ViewModel() {
+) : SavedStateViewModel() {
 
-    private val _questions: MutableLiveData<List<Question>> =
-        savedStateHandle.getLiveData("questions")
-    val question: LiveData<List<Question>> = _questions
+    private lateinit var _questions: MutableLiveData<List<Question>>
+    val question: LiveData<List<Question>> get() = _questions
 
-    init {
+    override fun init(savedStateHandle: SavedStateHandle) {
+        _questions = savedStateHandle.getLiveData(QUESTION_KEY)
+        fun isStateSaved() = savedStateHandle.get<Question>(QUESTION_KEY) != null
+
+
         if (!isStateSaved()) {
             viewModelScope.launch {
                 when (val result = fetchQuestionsUseCase.fetchLatestQuestions()) {
@@ -29,6 +34,4 @@ class MyViewModel @Inject constructor(
             }
         }
     }
-
-    private fun isStateSaved() = savedStateHandle.get<Question>("questions") != null
 }
